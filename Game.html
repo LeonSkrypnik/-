@@ -3,11 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головоломка с цифрами</title>
+    <title>Супер Головоломка - Экстремальное Издание</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-board"></div>
+    <div id="particles-container"></div>
+    
+    <div id="main-menu" class="screen active">
+        <h1 class="game-title">СУПЕР ГОЛОВОЛОМКА</h1>
+        <div class="menu-buttons">
+            <button class="menu-btn" onclick="startGame('classic')">Классический режим</button>
+            <button class="menu-btn" onclick="startGame('timed')">Режим на время</button>
+            <button class="menu-btn" onclick="startGame('survival')">Режим выживания</button>
+            <button class="menu-btn" onclick="startGame('boss')">Битва с боссом</button>
+            <button class="menu-btn" onclick="showLeaderboard()">Таблица лидеров</button>
+            <button class="menu-btn" onclick="showAchievements()">Достижения</button>
+        </div>
+    </div>
+
+    <div id="difficulty-select" class="screen">
+        <h2>Выберите сложность</h2>
+        <div class="difficulty-buttons">
+            <button class="diff-btn easy" onclick="setDifficulty('easy')">Легко (4x4)</button>
+            <button class="diff-btn medium" onclick="setDifficulty('medium')">Средне (6x6)</button>
+            <button class="diff-btn hard" onclick="setDifficulty('hard')">Сложно (8x8)</button>
+            <button class="diff-btn extreme" onclick="setDifficulty('extreme')">Экстрим (10x10)</button>
+        </div>
+        <button class="back-btn" onclick="backToMenu()">Назад</button>
+    </div>
+
+    <div id="game-screen" class="screen">
+        <div id="game-header">
+            <div class="stat-box">
+                <span class="stat-label">Очки:</span>
+                <span id="score" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Комбо:</span>
+                <span id="combo" class="stat-value">x1</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Время:</span>
+                <span id="timer" class="stat-value">0:00</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Жизни:</span>
+                <span id="lives" class="stat-value">❤️❤️❤️</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Уровень:</span>
+                <span id="level" class="stat-value">1</span>
+            </div>
+        </div>
+
+        <div id="powerups-bar">
+            <button class="powerup-btn" id="hint-btn" onclick="usePowerup('hint')" title="Подсказка (3)">
+                💡 <span class="powerup-count">3</span>
+            </button>
+            <button class="powerup-btn" id="freeze-btn" onclick="usePowerup('freeze')" title="Заморозка времени (2)">
+                ❄️ <span class="powerup-count">2</span>
+            </button>
+            <button class="powerup-btn" id="reveal-btn" onclick="usePowerup('reveal')" title="Показать все (1)">
+                👁️ <span class="powerup-count">1</span>
+            </button>
+            <button class="powerup-btn" id="shuffle-btn" onclick="usePowerup('shuffle')" title="Перемешать (2)">
+                🔀 <span class="powerup-count">2</span>
+            </button>
+        </div>
+
+        <div id="boss-health-container" style="display: none;">
+            <div class="boss-info">
+                <span id="boss-name">Босс Памяти</span>
+                <div class="boss-health-bar">
+                    <div id="boss-health" class="boss-health-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-board"></div>
+
+        <div id="game-controls">
+            <button class="control-btn" onclick="pauseGame()">⏸️ Пауза</button>
+            <button class="control-btn" onclick="quitGame()">🚪 Выход</button>
+        </div>
+    </div>
+
+    <div id="pause-screen" class="screen overlay">
+        <div class="modal">
+            <h2>Пауза</h2>
+            <button class="menu-btn" onclick="resumeGame()">Продолжить</button>
+            <button class="menu-btn" onclick="quitGame()">Выйти в меню</button>
+        </div>
+    </div>
+
+    <div id="gameover-screen" class="screen overlay">
+        <div class="modal">
+            <h2 id="gameover-title">Игра окончена!</h2>
+            <div id="final-stats"></div>
+            <input type="text" id="player-name" placeholder="Введите имя" maxlength="20">
+            <button class="menu-btn" onclick="saveScore()">Сохранить результат</button>
+            <button class="menu-btn" onclick="restartGame()">Играть снова</button>
+            <button class="menu-btn" onclick="backToMenu()">В меню</button>
+        </div>
+    </div>
+
+    <div id="leaderboard-screen" class="screen overlay">
+        <div class="modal wide">
+            <h2>Таблица лидеров</h2>
+            <div id="leaderboard-content"></div>
+            <button class="menu-btn" onclick="hideLeaderboard()">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="achievements-screen" class="screen overlay">
+        <div class="modal wide">
+            <h2>Достижения</h2>
+            <div id="achievements-content"></div>
+            <button class="menu-btn" onclick="hideAchievements()">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
